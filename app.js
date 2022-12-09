@@ -30,9 +30,9 @@ app
   .get(function (req, res) {
     Food.find(function (err, result) {
       if (!err) {
-        console.log(result);
+        res.send(result);
       } else {
-        console.log(err);
+        res.send(err);
       }
     });
   })
