@@ -2,11 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+// Config CORS
+app.use(cors({origin: '*'}));
 
 // Setup connection with local MongoDB
 // mongoose.connect("mongodb://localhost:27017/bunnyExpertDB");
