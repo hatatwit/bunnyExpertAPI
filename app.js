@@ -18,9 +18,9 @@ app.use(cors({origin: '*'}));
 mongoose.connect("mongodb+srv://hatatwit:admin123456@cluster0.ydwrobg.mongodb.net/bunnyExpertDB");
 
 const FoodSchema = mongoose.Schema({
-  veggies: String,
-  amount: String,
-  image: String,
+  food: String,
+  quantity: String,
+  imgURL: String,
 });
 const Food = mongoose.model("Food", FoodSchema);
 
@@ -44,9 +44,9 @@ app
 
   .post(function (req, res) {
     const newFood = new Food({
-      veggies: req.body.veggies,
-      amount: req.body.amount,
-      image: req.body.image,
+      food: req.body.food,
+      quantity: req.body.quantity,
+      imgURL: req.body.imgURL,
     });
     newFood.save(function (err) {
       if (!err) {
@@ -72,12 +72,12 @@ app
 
 /////   -----   Setting route for requesting specific food   -----   /////
 
-app.route("/food/:veggies")
+app.route("/food/:key")
 
 // Get specific food
 
 .get(function(req, res){
-    Food.findOne({veggies: req.params.veggies}, function(err, result){
+    Food.findOne({food: req.params.key}, function(err, result){
         if (result){
             res.send(result);
         } else {
@@ -90,8 +90,8 @@ app.route("/food/:veggies")
 
 .put(function(req, res){
     Food.updateOne(
-        {veggies: req.params.veggies},
-        {veggies: req.body.veggies, amount: req.body.amount, image: req.body.image},
+        {food: req.params.food},
+        {food: req.body.food, quantity: req.body.quantity, imgURL: req.body.imgURL},
         {overwrite: true},
         function(err, result){
             if (!err) {
@@ -108,7 +108,7 @@ app.route("/food/:veggies")
 
 .patch(function(req, res){
     Food.updateOne(
-        {veggies: req.params.veggies},
+        {food: req.params.food},
         {$set: req.body},
         function(err, result){
             if (!err) {
@@ -121,7 +121,7 @@ app.route("/food/:veggies")
     )
 })
 .delete(function(req, res){
-    Food.deleteOne({veggies: req.params.veggies}, function(err){
+    Food.deleteOne({food: req.params.food}, function(err){
         if (!err) {
             res.send("Succesfully delete food")
         } else {
